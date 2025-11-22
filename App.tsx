@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ArchigramPanel } from './components/ArchigramPanel';
 import { ImageDisplay } from './components/ImageDisplay';
 import { generateImage, generateImageDescription } from './services/genai';
 import { ImageResult, ModelType } from './types';
-import { Zap, Box, ArrowRight, Upload, X, Layers, FileText, Wand2, Loader2 } from 'lucide-react';
+import { Zap, Box, ArrowRight, Upload, X, Layers, FileText, Wand2, Loader2, Lock, Key } from 'lucide-react';
 
 // --- Canvas Helpers ---
 
@@ -18,22 +18,61 @@ const loadImage = (src: string): Promise<HTMLImageElement> => {
 };
 
 const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] => {
-  const words = text.split(' ');
-  const lines: string[] = [];
-  let currentLine = words[0];
+  // Preserve manual line breaks first
+  const paragraphs = text.split('\n');
+  const allLines: string[] = [];
 
-  for (let i = 1; i < words.length; i++) {
-    const word = words[i];
-    const width = ctx.measureText(currentLine + " " + word).width;
-    if (width < maxWidth) {
-      currentLine += " " + word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
+  paragraphs.forEach(paragraph => {
+    if (!paragraph) {
+        allLines.push('');
+        return;
     }
-  }
-  lines.push(currentLine);
-  return lines;
+
+    const words = paragraph.split(' ');
+    let currentLine = '';
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      const testLine = currentLine ? currentLine + ' ' + word : word;
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+
+      if (testWidth > maxWidth) {
+        // If the word itself is huge (longer than maxWidth), we must split it char by char (common for CJK)
+        if (ctx.measureText(word).width > maxWidth) {
+            // Push what we have so far if any
+            if (currentLine) {
+                allLines.push(currentLine);
+                currentLine = '';
+            }
+            
+            // Split the long word
+            let longWordBuffer = '';
+            for (const char of word) {
+                const longWidth = ctx.measureText(longWordBuffer + char).width;
+                if (longWidth > maxWidth) {
+                    allLines.push(longWordBuffer);
+                    longWordBuffer = char;
+                } else {
+                    longWordBuffer += char;
+                }
+            }
+            currentLine = longWordBuffer;
+        } else {
+             // Normal wrap
+            allLines.push(currentLine);
+            currentLine = word;
+        }
+      } else {
+        currentLine = testLine;
+      }
+    }
+    if (currentLine) {
+      allLines.push(currentLine);
+    }
+  });
+
+  return allLines;
 };
 
 const App: React.FC = () => {
@@ -42,6 +81,7 @@ const App: React.FC = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [apiKeySelected, setApiKeySelected] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const initialResultState = (modelName: string): ImageResult => ({
@@ -54,6 +94,28 @@ const App: React.FC = () => {
 
   const [resultA, setResultA] = useState<ImageResult>(initialResultState(ModelType.FLASH_IMAGE));
   const [resultB, setResultB] = useState<ImageResult>(initialResultState(ModelType.PRO_IMAGE));
+
+  // Check for API Key on Mount
+  useEffect(() => {
+    const checkKey = async () => {
+      if ((window as any).aistudio && (window as any).aistudio.hasSelectedApiKey) {
+        const hasKey = await (window as any).aistudio.hasSelectedApiKey();
+        setApiKeySelected(hasKey);
+      } else {
+        // Fallback for environments without the wrapper (dev)
+        setApiKeySelected(true);
+      }
+    };
+    checkKey();
+  }, []);
+
+  const handleSelectKey = async () => {
+    if ((window as any).aistudio && (window as any).aistudio.openSelectKey) {
+      await (window as any).aistudio.openSelectKey();
+      // Optimistically set to true to avoid race conditions as per spec
+      setApiKeySelected(true);
+    }
+  };
 
   const processFiles = (files: FileList | File[]) => {
     if (!files) return;
@@ -132,7 +194,7 @@ const App: React.FC = () => {
       setPrompt(description.trim());
     } catch (error) {
       console.error("Analysis failed", error);
-      alert("Failed to reverse prompt image.");
+      alert("Failed to reverse prompt image. Ensure API key has permissions.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -162,6 +224,10 @@ const App: React.FC = () => {
           latency
         }));
       } catch (err: any) {
+        // Handle Permission Denied specifically
+        if (err.message?.includes('403') || err.message?.includes('PERMISSION_DENIED')) {
+            setApiKeySelected(false); // Reset key state to force re-selection if needed
+        }
         setResult(prev => ({
           ...prev,
           loading: false,
@@ -396,6 +462,18 @@ const App: React.FC = () => {
     ctx.strokeStyle = '#111111';
     ctx.stroke();
 
+    // Watermark
+    ctx.fillStyle = '#111111';
+    const wmText = "BananaBattle | ZHO";
+    ctx.font = 'bold 24px "Space Mono", monospace';
+    const wmWidth = ctx.measureText(wmText).width;
+    const wmPadding = 10;
+    
+    ctx.fillRect(width - wmWidth - (wmPadding*2) - padding, totalHeight - 60, wmWidth + (wmPadding*2), 40);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(wmText, width - wmWidth - wmPadding - padding, totalHeight - 60 + 20);
+
     // Trigger Download
     const link = document.createElement('a');
     link.download = `BananaBattle_Report_${Date.now()}.png`;
@@ -404,7 +482,42 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 max-w-7xl mx-auto pb-20">
+    <div className="min-h-screen p-4 md:p-8 max-w-7xl mx-auto pb-20 relative">
+      {/* Security Clearance Overlay */}
+      {!apiKeySelected && (
+        <div className="fixed inset-0 z-50 bg-archi-cream/95 flex items-center justify-center backdrop-blur-md">
+          <ArchigramPanel color="red" className="max-w-md w-full mx-4 text-center shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div className="flex flex-col items-center gap-6 py-4">
+              <div className="bg-black p-4 rounded-full">
+                <Lock className="w-12 h-12 text-archi-red" />
+              </div>
+              <div>
+                <h2 className="font-sans text-3xl font-black mb-2 text-black">SECURITY CLEARANCE</h2>
+                <p className="font-mono text-sm text-archi-black">
+                  ACCESS DENIED. HIGH-FIDELITY MODELS (PRO) REQUIRE VERIFIED API CREDENTIALS.
+                </p>
+              </div>
+              
+              <button 
+                onClick={handleSelectKey}
+                className="w-full bg-black text-white font-mono py-3 flex items-center justify-center gap-2 hover:bg-archi-red transition-colors border-2 border-transparent hover:border-black shadow-[4px_4px_0px_0px_#111]"
+              >
+                <Key size={16} />
+                INSERT API TOKEN
+              </button>
+              
+              <div className="text-[10px] font-mono text-gray-500 border-t border-gray-300 pt-4 mt-2 w-full">
+                SECURE CONNECTION PROTOCOL V3.0
+                <br/>
+                <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="underline hover:text-black">
+                  BILLING DOCUMENTATION
+                </a>
+              </div>
+            </div>
+          </ArchigramPanel>
+        </div>
+      )}
+
       {/* Header Section */}
       <header className="mb-8 relative">
         <div className="flex flex-col md:flex-row justify-between items-end border-b-8 border-black pb-4">
@@ -608,8 +721,8 @@ const App: React.FC = () => {
                 <span className="font-mono font-bold text-xs md:text-sm text-black">Nano Banana Pro</span>
              </div>
              {uploadedImages.length > 0 && (
-               <div className="font-mono text-[10px] font-bold bg-gray-100 text-archi-black border border-black px-2 py-0.5 line-through decoration-archi-red opacity-70">
-                 IMG_INPUT: OFF
+               <div className="font-mono text-[10px] font-bold bg-archi-yellow border border-black px-2 py-0.5 text-black">
+                 IMG_INPUT: ON
                </div>
              )}
           </div>
@@ -625,7 +738,7 @@ const App: React.FC = () => {
           
            <div className="mt-4 font-mono text-[10px] font-bold text-archi-black leading-tight border-l-2 border-black pl-2">
             <p>CAPABILITY: HIGH FIDELITY GEN</p>
-            <p>NOTE: REF_IMAGES IGNORED (TEXT ONLY)</p>
+            <p>FUNCTION: MULTIMODAL GENERATION</p>
           </div>
         </div>
       </main>
